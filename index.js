@@ -9,7 +9,10 @@ const SUBREDDIT_URL = "https://www.reddit.com/r"
 
 module.exports = (sub, destination, sort, limit, time, after) => {
     let neededReqs = Math.ceil(limit / 100)
+    let currentRequest = 1
+    let downloadedCount = 0
     const dest = path.resolve(destination)
+    // console.log(`Queuing ${neededReqs} requests to check ${limit} posts`)
 
     if (!fs.existsSync(dest)){
         fs.mkdirSync(dest);
@@ -18,7 +21,9 @@ module.exports = (sub, destination, sort, limit, time, after) => {
     getPosts(after).catch(err => console.log(chalk.red("Error occurred:", err.message)))
 
     function getPosts(after) {
+        if (after === null) { return }
         // console.log({neededReqs})
+        // console.log(`Making request #${currentRequest}`)
         return rp({
             url:`${SUBREDDIT_URL}/${sub}/${sort}.json`,
             qs: {
@@ -31,10 +36,14 @@ module.exports = (sub, destination, sort, limit, time, after) => {
 
             .then((response)=> {
                 const nextPage = response.data.after
+                if (!nextPage) {
+                    console.log({nextPage})
+                }
                 const posts = response.data.children.map(e => e.data)
                 // console.log('Total posts:', posts.length)
                 const imagePosts = posts.filter(post => post.post_hint === "image")
-                console.log("Posts with post hint image:", imagePosts.length)
+                console.log(`Found ${imagePosts.length} posts with image`)
+                downloadedCount += imagePosts.length
                 const imageUrls = imagePosts.map(image => image.preview.images[0].source.url)
                 // console.log('Imageurls length:', imageUrls.length)
                 const dlPromises = Promise.all(
@@ -43,7 +52,9 @@ module.exports = (sub, destination, sort, limit, time, after) => {
 
                 return dlPromises.then(result => {
                     neededReqs--
+                    currentRequest++
                     if (neededReqs < 1) {
+                        console.log(`Downloaded ${downloadedCount} images to ${dest}`)
                         return
                     }
                     getPosts(nextPage)

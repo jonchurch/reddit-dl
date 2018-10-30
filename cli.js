@@ -14,9 +14,9 @@ program
     // .option('-a, --after <value>', 'After value to start at from the Reddit api')
     .parse(process.argv)
 
-const {sort = "top", limit = 100, time = "day", after = null} = program
+const {sort = "top", limit = 100, time = "day", after} = program
 const [subreddit, destination] = program.args
-console.log({subreddit, sort, limit, time, destination})
+// console.log({subreddit, sort, limit, time, destination})
 
 const sortTypes = ['hot', 'new', 'top', 'rising', 'controversial', 'random']
 const timeTypes = ['hour', 'day', 'week', 'month', 'year', 'all']
