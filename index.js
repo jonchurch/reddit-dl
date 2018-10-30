@@ -10,7 +10,7 @@ module.exports = (sub, filter, limit, destination) => {
     let neededReqs = Math.ceil(limit / 100)
     const dest = path.resolve(destination)
 
-    getPosts()
+    getPosts().catch(err => console.log(chalk.red("Error occurred:", err.message)))
 
     function getPosts(after) {
         // console.log({neededReqs})
