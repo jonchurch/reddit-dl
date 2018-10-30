@@ -2,7 +2,12 @@
 
 ## Download top images from a subreddit
 
-Example:
+### Install
+Requires that Node and NPM are installed.
+
+Run `npm i -g reddit-dl`
+
+**Example:**
 ```
 reddit-dl -f hot -t day -l 200 wallpapers ./wallpapers
 ```
