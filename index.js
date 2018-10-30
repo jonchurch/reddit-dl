@@ -1,4 +1,5 @@
 const path = require('path')
+const fs = require('fs')
 
 const rp = require('request-promise').defaults({json: true})
 const dl = require('image-downloader')
@@ -9,6 +10,10 @@ const SUBREDDIT_URL = "https://www.reddit.com/r"
 module.exports = (sub, filter, limit, destination) => {
     let neededReqs = Math.ceil(limit / 100)
     const dest = path.resolve(destination)
+
+    if (!fs.existsSync(dest)){
+        fs.mkdirSync(dest);
+    }
 
     getPosts().catch(err => console.log(chalk.red("Error occurred:", err.message)))
 
