@@ -7,7 +7,7 @@ const chalk = require('chalk')
 
 const SUBREDDIT_URL = "https://www.reddit.com/r"
 
-module.exports = (sub, sort, limit, destination, after) => {
+module.exports = (sub, destination, sort, limit, time, after) => {
     let neededReqs = Math.ceil(limit / 100)
     const dest = path.resolve(destination)
 
@@ -24,7 +24,7 @@ module.exports = (sub, sort, limit, destination, after) => {
             qs: {
                 raw_json: 1,
                 limit: limit < 100 ? limit : 100,
-                t: "all",
+                t: time,
                 after
             }
         })

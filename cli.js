@@ -10,12 +10,13 @@ program
     .option('-s, --sort [hot, new, top, rising, controversial, random]', 'Sort filter. Default is top')
     .option('-t, --time <value>', 'Time, one of hour, day, week, month, year, all. Default is all')
     .option('-l, --limit <value>', 'Limit, number of posts to check')
+    // .option('-p, --preview', 'Download preview image. Default false')
     // .option('-a, --after <value>', 'After value to start at from the Reddit api')
     .parse(process.argv)
 
-const {sort = "top", limit = 100, time = "all", after = null} = program
+const {sort = "top", limit = 100, time = "day", after = null} = program
 const [subreddit, destination] = program.args
-// console.log({subreddit, sort, limit, time, destination})
+console.log({subreddit, sort, limit, time, destination})
 
 const sortTypes = ['hot', 'new', 'top', 'rising', 'controversial', 'random']
 const timeTypes = ['hour', 'day', 'week', 'month', 'year', 'all']
@@ -43,4 +44,4 @@ if (!destination) {
     program.help()
     process.exit(1)
 }
-redditDl(subreddit, sort, limit, destination)
+redditDl(subreddit, destination, sort, limit, time, after)
