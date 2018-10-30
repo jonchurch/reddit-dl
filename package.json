@@ -1,7 +1,7 @@
 {
-  "name": "reddit-top-images",
+  "name": "reddit-dl",
   "version": "1.0.0",
-  "description": "",
+  "description": "Download top images from subreddit",
   "main": "index.js",
   "bin": {
       "reddit-dl": "cli.js"
@@ -9,8 +9,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["reddit", "images", "download", "subreddit", "top"],
+  "author": "Jon Church",
+  "email": "npm@jonchurch.com",
+  "respository": "github:jonchurch/reddit-dl",
   "license": "ISC",
   "dependencies": {
     "chalk": "^2.4.1",
