@@ -12,7 +12,10 @@
   "keywords": ["reddit", "images", "download", "subreddit", "top"],
   "author": "Jon Church",
   "email": "npm@jonchurch.com",
-  "respository": "github:jonchurch/reddit-dl",
+  "respository": {
+      "type": "git",
+      "url": "https://github.com/jonchurch/reddit-dl.git"
+  },
   "license": "MIT",
   "dependencies": {
     "chalk": "^2.4.1",
