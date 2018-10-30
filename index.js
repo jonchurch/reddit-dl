@@ -52,7 +52,7 @@ function downloadPosts(after) {
 			const imageUrls = imagePosts.map(image => image.url)
 			console.log('Imageurls length:', imageUrls.length)
 			const dlPromises = Promise.all(
-				imageUrls.map(url => dl.image({url, dest}).catch(err => console.log(err)))
+				imageUrls.map(url => dl.image({url, dest}).catch(err => console.log(`Error downloading ${url} to ${dest}`,err)))
 		)
 
 			return dlPromises.then(result => {
