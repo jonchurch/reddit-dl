@@ -7,20 +7,21 @@ const redditDl = require('./')
 program
     .version('0.0.0')
     .arguments('<subreddit> <output_dir>')
-    .option('-f, --filter [hot, new, top, rising, controversial, random]', 'Sort filter. Default is top')
+    .option('-s, --sort [hot, new, top, rising, controversial, random]', 'Sort filter. Default is top')
     .option('-t, --time <value>', 'Time, one of hour, day, week, month, year, all. Default is all')
     .option('-l, --limit <value>', 'Limit, number of posts to check')
+    // .option('-a, --after <value>', 'After value to start at from the Reddit api')
     .parse(process.argv)
 
-const {filter = "top", limit = 100, time = "all"} = program
+const {sort = "top", limit = 100, time = "all", after = null} = program
 const [subreddit, destination] = program.args
-// console.log({subreddit, filter, limit, time, destination})
+// console.log({subreddit, sort, limit, time, destination})
 
-const filterTypes = ['hot', 'new', 'top', 'rising', 'controversial', 'random']
+const sortTypes = ['hot', 'new', 'top', 'rising', 'controversial', 'random']
 const timeTypes = ['hour', 'day', 'week', 'month', 'year', 'all']
 
-if (!filterTypes.includes(filter)) {
-    console.log(chalk.red('Error: filter must be one of ' + filterTypes.join(', ')))
+if (!sortTypes.includes(sort)) {
+    console.log(chalk.red('Error: sort must be one of ' + sortTypes.join(', ')))
     program.help()
     process.exit(1)
 }
@@ -42,4 +43,4 @@ if (!destination) {
     program.help()
     process.exit(1)
 }
-redditDl(subreddit, filter, limit, destination)
+redditDl(subreddit, sort, limit, destination)

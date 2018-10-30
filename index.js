@@ -7,7 +7,7 @@ const chalk = require('chalk')
 
 const SUBREDDIT_URL = "https://www.reddit.com/r"
 
-module.exports = (sub, filter, limit, destination) => {
+module.exports = (sub, sort, limit, destination, after) => {
     let neededReqs = Math.ceil(limit / 100)
     const dest = path.resolve(destination)
 
@@ -15,12 +15,12 @@ module.exports = (sub, filter, limit, destination) => {
         fs.mkdirSync(dest);
     }
 
-    getPosts().catch(err => console.log(chalk.red("Error occurred:", err.message)))
+    getPosts(after).catch(err => console.log(chalk.red("Error occurred:", err.message)))
 
     function getPosts(after) {
         // console.log({neededReqs})
         return rp({
-            url:`${SUBREDDIT_URL}/${sub}/${filter}.json`,
+            url:`${SUBREDDIT_URL}/${sub}/${sort}.json`,
             qs: {
                 raw_json: 1,
                 limit: limit < 100 ? limit : 100,
