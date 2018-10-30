@@ -21,9 +21,9 @@ The limit option is for how many posts to check, not all may have an image assoc
 Usage: reddit-dl [options] <subreddit> <output_dir>
 
 Options:
-  -V, --version                                                output the version number
-  -s, --sort [hot, new, top, rising, controversial, random]  Sort filter. Default is top
-  -t, --time <value>                                           Time, one of hour, day, week, month, year, all. Default is all
-  -l, --limit <value>                                          Limit, number of posts to check
-  -h, --help                                                   output usage information
+  -V, --version         output the version number
+  -s, --sort <string>   Sort filter, one of hot, new, top, rising, controversial, random. Default is top
+  -t, --time <string>   Time, one of hour, day, week, month, year, all. Default is all
+  -l, --limit <number>  Limit, number of posts to check. Default is 100
+  -h, --help            output usage information
 ```
