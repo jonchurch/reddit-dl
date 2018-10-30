@@ -25,6 +25,14 @@ Options:
   -h, --help            output usage information
 ```
 ### Example:
+
+Check the first 200 posts sorted by "hot" posted in the past "day", of subreddit wallpapers and download image to folder wallpapers in current directory.
 ```
 reddit-dl -f hot -t day -l 200 wallpapers ./wallpapers
+```
+
+Check the first 100 posts sorted by "top" posted of all time, of subreddit pics and download image to folder reddit_pics in current directory.
+
+```
+reddit-dl pics -t all ./reddit_pics
 ```
