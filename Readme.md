@@ -7,10 +7,7 @@ Requires that Node and NPM are installed.
 
 Run `npm i -g reddit-dl`
 
-**Example:**
-```
-reddit-dl -f hot -t day -l 200 wallpapers ./wallpapers
-```
+### Usage
 Uses a subreddit's JSON feed to look for image posts, and download reddit's preview image. 
 
 Takes a subreddit name and output directory as arugments, directory will be created if it deosn't alreayd exist. Sort options include sorting by hot, top, new, rising, controversial, or random. You can also sort across time with the time option and choosing hour, day, week, month, year, or all.
@@ -26,4 +23,8 @@ Options:
   -t, --time <string>   Time, one of hour, day, week, month, year, all. Default is all
   -l, --limit <number>  Limit, number of posts to check. Default is 100
   -h, --help            output usage information
+```
+### Example:
+```
+reddit-dl -f hot -t day -l 200 wallpapers ./wallpapers
 ```
