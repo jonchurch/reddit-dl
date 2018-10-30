@@ -1,11 +1,20 @@
 # reddit-dl
+Download top images from a subreddit. Command Line tool to scrape images from image posts on reddit. Uses Reddit's JSON formatted [API](https://www.reddit.com/dev/api/) for subreddit listings.
 
-## Download top images from a subreddit
+### Prerequisites
 
-### Install
 Requires that Node and NPM are installed.
 
-Run `npm i -g reddit-dl`
+### Install
+Install with npm (the recommended way):
+
+`npm install -g reddit-dl`
+
+And reddit-dl will be installed globally to your system path.
+
+You can also install reddit-dl as a development dependency:
+
+`npm install --save-dev reddit-dl`
 
 ### Usage
 Uses a subreddit's JSON feed to look for image posts, and download reddit's preview image. 
@@ -36,3 +45,7 @@ Check the first 100 posts sorted by "top" posted of all time, of subreddit pics 
 ```
 reddit-dl pics -t all ./reddit_pics
 ```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
