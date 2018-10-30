@@ -11,6 +11,7 @@ const help = args.help || args.h
 const sub = args.subreddit || args.s
 let dest = args.destination || args.d
 const limit = args.limit || args.l || 100
+const filter = args.filter || args.f || "top"
 
 const helpText = "This should be helpful!"
 
@@ -27,7 +28,7 @@ if (!sub || !dest) {
 
 dest = path.resolve(dest)
 
-rp(`${SUBREDDIT_URL}/${sub}.json?t=all&limit=${limit}`)
+rp(`${SUBREDDIT_URL}/${sub}/${filter}.json?t=all&limit=${limit}`)
 	.then((response)=> {
 		const posts = response.data.children.map(e => e.data)
 		console.log('Total posts:', posts.length)
