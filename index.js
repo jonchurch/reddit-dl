@@ -47,7 +47,13 @@ module.exports = (sub, filter, limit, destination) => {
     }
 
     function getImage(url, dest) {
-        return dl.image({url, dest})
+        const redditImageRegex = /https:\/\/?(?:external-preview|preview)\.redd\.it\/(.*)\.(jpg|png|gif)/
+        const match = url.match(redditImageRegex)
+        const fileName = match[1]
+        const ext = '.' + match[2]
+        const destinationPath = path.join(dest, fileName + ext)
+        // downloadImage(url, filename + ext, callback)
+        return dl.image({url, dest: destinationPath})
                 .then(() => console.log(`${url} - ${chalk.green('Download Complete')}`))
                 .catch(err => console.log(chalk.red(`Error downloading ${url} to ${dest}`),err))
     }
