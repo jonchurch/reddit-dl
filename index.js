@@ -10,7 +10,7 @@ const args = minimist(process.argv.slice(2))
 const help = args.help || args.h
 const sub = args.subreddit || args.s
 let dest = args.destination || args.d
-const limit = args.limit || args.l || 100
+let limit = args.limit || args.l || 100
 const filter = args.filter || args.f || "top"
 
 const helpText = "This should be helpful!"
@@ -28,20 +28,40 @@ if (!sub || !dest) {
 
 dest = path.resolve(dest)
 
-rp(`${SUBREDDIT_URL}/${sub}/${filter}.json?t=all&limit=${limit}`)
-	.then((response)=> {
-		const posts = response.data.children.map(e => e.data)
-		console.log('Total posts:', posts.length)
-		const imagePosts = posts.filter(post => {
-			console.log(post.post_hint)
-			return post.post_hint === "image"
-		})
-		console.log("Posts with post hint image:", imagePosts.length)
-		const imageUrls = imagePosts.map(image => image.url)
-		console.log('Imageurls length:', imageUrls.length)
-		const dlPromises = Promise.all(
-			imageUrls.map(url => dl.image({url, dest}).catch(err => console.log(err)))
-	)
+let neededReqs = Math.ceil(limit / 100)
+console.log({neededReqs})
 
-		dlPromises.then(result = console.log("Done!"))
+downloadPosts()
+
+function downloadPosts(after) {
+	return rp({
+		url:`${SUBREDDIT_URL}/${sub}/${filter}.json`,
+		qs: {
+			limit: limit < 100 ? limit : 100,
+			t: "all",
+			after
+		}
 	})
+
+		.then((response)=> {
+			const nextPage = response.data.after
+			const posts = response.data.children.map(e => e.data)
+			console.log('Total posts:', posts.length)
+			const imagePosts = posts.filter(post => post.post_hint === "image")
+			console.log("Posts with post hint image:", imagePosts.length)
+			const imageUrls = imagePosts.map(image => image.url)
+			console.log('Imageurls length:', imageUrls.length)
+			const dlPromises = Promise.all(
+				imageUrls.map(url => dl.image({url, dest}).catch(err => console.log(err)))
+		)
+
+			return dlPromises.then(result => {
+				neededReqs--
+				console.log({neededReqs})
+				if (neededReqs < 1) {
+					return
+				}
+				downloadPosts(nextPage)
+			})
+		})
+}
