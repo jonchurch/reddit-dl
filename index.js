@@ -2,34 +2,7 @@ const path = require('path')
 
 const rp = require('request-promise').defaults({json: true})
 const dl = require('image-downloader')
-// const minimist = require('minimist')
-
-// const args = minimist(process.argv.slice(2))
-
-// const help = args.help || args.h
-// const sub = args.subreddit || args.s
-// let dest = args.destination || args.d
-// let limit = args.limit || args.l || 100
-// const filter = args.filter || args.f || "top"
-
-// const helpText = "This should be helpful!"
-
-// if (help) {
-// 	console.log(helpText)
-// 	process.exit(0)
-// }
-
-// if (!sub || !dest) {
-// 	console.error('Must provide a --subreddit and a --destination')
-// 	console.log(helpText)
-// 	process.exit(1)
-// }
-
-// console.log({dest})
-
-// console.log({neededReqs})
-
-// console.log(subreddit, filter, limit, destination)
+const chalk = require('chalk')
 
 const SUBREDDIT_URL = "https://www.reddit.com/r"
 
@@ -57,7 +30,7 @@ module.exports = (sub, filter, limit, destination) => {
                 // console.log('Total posts:', posts.length)
                 const imagePosts = posts.filter(post => post.post_hint === "image")
                 console.log("Posts with post hint image:", imagePosts.length)
-                const imageUrls = imagePosts.map(image => image.url)
+                const imageUrls = imagePosts.map(image => image.preview.images[0].source.url)
                 // console.log('Imageurls length:', imageUrls.length)
                 const dlPromises = Promise.all(
                     imageUrls.map(url => getImage(url, dest))
@@ -75,7 +48,8 @@ module.exports = (sub, filter, limit, destination) => {
 
     function getImage(url, dest) {
         return dl.image({url, dest})
-                .catch(err => console.log(`Error downloading ${url} to ${dest}`,err))
+                .then(() => console.log(`${url} - ${chalk.green('Download Complete')}`))
+                .catch(err => console.log(chalk.red(`Error downloading ${url} to ${dest}`),err))
     }
 
 }
