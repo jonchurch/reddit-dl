@@ -15,7 +15,13 @@ module.exports = (sub, destination, sort, limit, time, after) => {
     // console.log(`Queuing ${neededReqs} requests to check ${limit} posts`)
 
     if (!fs.existsSync(dest)){
+        try {
+
         fs.mkdirSync(dest);
+        } catch(err) {
+            console.log(chalk.red(`Error creating destination dir. Does the parent directory exist?\n`, err))
+            process.exit(1)
+        }
     }
 
     getPosts(after).catch(err => console.log(chalk.red("Error occurred:", err.message)))
