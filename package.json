@@ -1,6 +1,6 @@
 {
   "name": "reddit-dl",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Download top images from subreddit",
   "main": "index.js",
   "bin": {
